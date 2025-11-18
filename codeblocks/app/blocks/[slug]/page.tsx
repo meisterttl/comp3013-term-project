@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getBlock, deleteBlock } from "@/app/lib/actions";
 import DeleteButton from "@/app/components/DeleteButton";
 
@@ -9,6 +10,8 @@ export default async function Blocks({
 }) {
   const { slug } = await params;
   const block = await getBlock(slug);
+
+  if (!block) return notFound();
 
   return (
     <main className="min-h-screen bg-gray-50 p-8">

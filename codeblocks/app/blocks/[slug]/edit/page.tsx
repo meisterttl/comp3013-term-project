@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { editBlock, getBlock } from "@/app/lib/actions";
 import Form from "@/app/ui/Form";
 
@@ -8,6 +9,8 @@ export default async function EditBlock({
 }) {
   const { slug } = await params;
   const block = await getBlock(slug);
+
+  if (!block) return notFound();
 
   return (
     <main className="min-h-screen bg-gray-50 p-8">
