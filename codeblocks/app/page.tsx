@@ -1,9 +1,16 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import Blocks from "./ui/Blocks";
 import SkeletonBlocks from "./ui/SkeletonBlocks";
 import { Suspense } from "react";
 
 export default async function Home() {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")!;
+
+  if (!userId) redirect("/login");
+
   return (
     <Suspense fallback={<SkeletonBlocks />}>
       <main className="min-h-screen bg-gray-50 p-8">
@@ -22,7 +29,7 @@ export default async function Home() {
             </h1>
           </header>
 
-          <Blocks />
+          <Blocks userId={userId} />
         </div>
       </main>
     </Suspense>

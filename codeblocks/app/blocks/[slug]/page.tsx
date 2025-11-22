@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
+import { redirect, notFound } from "next/navigation";
 import { getBlock, deleteBlock } from "@/app/lib/actions";
 import DeleteButton from "@/app/components/DeleteButton";
 
@@ -8,8 +9,13 @@ export default async function Blocks({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")!;
+
+  if (!userId) redirect("/login");
+
   const { slug } = await params;
-  const block = await getBlock(slug);
+  const block = await getBlock(slug, userId.value);
 
   if (!block) return notFound();
 

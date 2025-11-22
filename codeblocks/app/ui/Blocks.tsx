@@ -1,8 +1,11 @@
 import { prisma } from "@/database";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Link from "next/link";
 
-export default async function Blocks() {
-  const blocks = await prisma.block.findMany();
+export default async function Blocks({ userId }: { userId: RequestCookie }) {
+  const blocks = await prisma.block.findMany({
+    where: { userId: Number(userId.value) },
+  });
 
   return 0 === blocks.length ? (
     <p className="text-gray-500 italic text-center">

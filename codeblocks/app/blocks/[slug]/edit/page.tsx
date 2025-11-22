@@ -1,4 +1,5 @@
-import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
+import { redirect, notFound } from "next/navigation";
 import { editBlock, getBlock } from "@/app/lib/actions";
 import Form from "@/app/ui/Form";
 
@@ -7,8 +8,13 @@ export default async function EditBlock({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")!;
+
+  if (!userId) redirect("/login");
+
   const { slug } = await params;
-  const block = await getBlock(slug);
+  const block = await getBlock(slug, userId.value);
 
   if (!block) return notFound();
 
@@ -23,6 +29,15 @@ export default async function EditBlock({
 
         <form className="flex flex-wrap items-center" action={editBlock}>
           <input
+            type="hidden"
+            className="hidden"
+            name="userId"
+            value={userId.value}
+            aria-hidden="true"
+            readOnly
+          />
+          <input
+            type="hidden"
             className="hidden"
             name="id"
             value={slug}
@@ -30,7 +45,7 @@ export default async function EditBlock({
             readOnly
           />
 
-          <Form block={block} />
+          <Form block={block} buttonLabel={"Save"} />
         </form>
       </div>
     </main>

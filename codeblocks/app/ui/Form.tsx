@@ -7,12 +7,14 @@ import Button from "@/app/components/Button";
 
 export default function Form({
   block,
+  buttonLabel,
 }: {
   block: {
     id: number;
     title: string;
     code: string;
   } | null;
+  buttonLabel: string;
 }) {
   const [titleText, setTitleText] = useState(block ? block.title : "");
   const [codeBlock, setCodeBlock] = useState(block ? block.code : "");
@@ -33,7 +35,7 @@ export default function Form({
 
       <CodeTextArea codeBlock={codeBlock} handleCodeBlock={handleCodeBlock} />
 
-      <Button label={"Create"} isDisabled={!(titleText && codeBlock)} />
+      <Button label={buttonLabel} isDisabled={!(titleText && codeBlock)} />
     </>
   );
 }
