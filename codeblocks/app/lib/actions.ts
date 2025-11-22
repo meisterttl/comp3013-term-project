@@ -53,12 +53,13 @@ export async function getBlock(slug: string, userId: string) {
   });
 }
 
-export async function deleteBlock(slug: string) {
+export async function deleteBlock(slug: string, userId: string) {
   "use server";
 
   await prisma.block.delete({
     where: {
       id: Number(slug),
+      userId: Number(userId),
     },
   });
 }

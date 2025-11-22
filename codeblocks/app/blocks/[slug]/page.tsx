@@ -24,7 +24,7 @@ export default async function Blocks({
       <div className="max-w-2xl mx-auto">
         <header className="flex flex-wrap items-center justify-between mb-8">
           <div className="flex basis-full items-center md:justify-end mb-4">
-            <DeleteButton onClick={deleteBlock} slug={slug} />
+            <DeleteButton onClick={deleteBlock} slug={slug} userId={userId} />
 
             <Link
               href={`/blocks/${slug}/edit`}

@@ -1,18 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export default function DeleteButton({
   onClick,
   slug,
+  userId,
 }: {
-  onClick: (slug: string) => Promise<void>;
+  onClick: (slug: string, userId: string) => Promise<void>;
   slug: string;
+  userId: RequestCookie;
 }) {
   const router = useRouter();
 
   const handleClick = async () => {
-    await onClick(slug);
+    await onClick(slug, userId.value);
     router.push("/");
   };
 
